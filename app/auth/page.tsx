@@ -31,7 +31,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteCookie, setCookie } from "cookies-next";
 
-const SOCKET_SERVER_URL = "http://localhost:3001";
+const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3001";
+
 
 export default function ProfileForm() {
   const [get, set] = useState<String>("signin");

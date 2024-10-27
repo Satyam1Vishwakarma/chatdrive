@@ -73,7 +73,8 @@ const tagss = Array.from({ length: 10 }).map(
   (_, _i, _a) => "https://github.com/shadcn.png"
 );
 
-const SOCKET_SERVER_URL = "http://localhost:3001";
+const SOCKET_SERVER_URL =
+  process.env.NEXT_PUBLIC_URL || "http://localhost:3001";
 
 export default function Chat() {
   const [getSelectedGroup, setSelectedGroup] = useState<string>("");
