@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import cors from "cors";
 import * as edgedb from "edgedb";
 import { object } from "zod";
+import { instrument } from "@socket.io/admin-ui";
 
 const app = express();
 const server = createServer(app);
@@ -13,9 +14,21 @@ const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
+
+instrument(io, {
+  auth: false,
+  mode: "development",
+});
 
 const client = edgedb.createClient();
 
