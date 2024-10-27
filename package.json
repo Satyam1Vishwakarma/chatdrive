@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "server": "DEBUG=socket.io* bun --watch index.js",
+    "server": "bun --watch index.js",
     "server2": "bun --watch index2.js",
     "lint": "next lint"
   },
