@@ -10,12 +10,13 @@ import { object } from "zod";
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
+  //cors: {
+  //  origin: "*",
+  //  methods: ["GET", "POST"],
   },
-});
-app.use(cors());
+//}
+);
+//app.use(cors());
 
 const client = edgedb.createClient();
 
