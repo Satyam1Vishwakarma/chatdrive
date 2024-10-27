@@ -4,10 +4,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { Server } from "socket.io";
 import cors from "cors";
-import { Interface } from "node:readline";
 import * as edgedb from "edgedb";
-import e from "./dbschema/edgeql-js";
-import { json } from "stream/consumers";
 import { object } from "zod";
 
 const app = express();
