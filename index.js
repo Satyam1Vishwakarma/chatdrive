@@ -339,8 +339,8 @@ io.on("connection", (socket) => {
     socket.emit("getonlineusers response", { object: OnlineUsers });
   });
 
-  socket.on("join", () => {
-    socket.join("1");
+  socket.on("connect_error", (error) => {
+    console.error("Connection error:", error);
   });
 
   socket.on("test", (room) => {
@@ -350,7 +350,7 @@ io.on("connection", (socket) => {
 
   socket.conn.on("close", (reason) => {
     console.log("end /", reason);
-    io.sockets.emit("discontinued")
+    io.sockets.emit("discontinued");
   });
 });
 
