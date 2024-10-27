@@ -343,9 +343,9 @@ io.on("connection", (socket) => {
     socket.join("1");
   });
 
-  socket.on("join_room", (room) => {
-    console.log(`User ${socket.id} joined room ${room}`);
-    io.to(room).emit("message", `User ${socket.id} joined room ${room}`);
+  socket.on("test", (room) => {
+    io.sockets.emit("feedback", `hello`);
+    console.log(`backed feed`);
   });
 
   socket.conn.on("close", (reason) => {
