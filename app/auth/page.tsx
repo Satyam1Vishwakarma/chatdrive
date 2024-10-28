@@ -31,12 +31,13 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteCookie, setCookie } from "cookies-next";
 
-const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3001";
-
+const SOCKET_SERVER_URL =
+  process.env.NEXT_PUBLIC_URL || "http://localhost:3001";
 
 export default function ProfileForm() {
   const [get, set] = useState<String>("signin");
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [connect, setConnect] = useState(false);
   const router = useRouter();
 
   const connectSocket = useCallback(() => {
@@ -47,6 +48,10 @@ export default function ProfileForm() {
       id: number;
       username: String;
     }
+
+    newSocket.on("connect", () => {
+      setConnect(true)
+    });
 
     newSocket.on("signin response", (message: Message) => {
       if (message["event"] == 1) {
@@ -188,48 +193,56 @@ export default function ProfileForm() {
     );
   }
 
-  return (
-    <Tabs
-      defaultValue="signin"
-      className="flex flex-col items-center h-full justify-center px-5"
-      onValueChange={set}
-    >
-      <TabsList className="flex justify-center w-fit">
-        <TabsTrigger
-          onClick={() => {
-            set("signin");
-          }}
-          value="signin"
-        >
-          SignIn
-        </TabsTrigger>
-        <TabsTrigger
-          onClick={() => {
-            set("signup");
-          }}
-          value="signup"
-        >
-          SignUp
-        </TabsTrigger>
-      </TabsList>
-      <TabsContent value="signin">
-        <Card className="px-12">
-          <CardHeader>
-            <CardTitle>SignIn</CardTitle>
-            <CardDescription>Signin to access</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">{FormUI()}</CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="signup">
-        <Card className="px-12">
-          <CardHeader>
-            <CardTitle>SignUp</CardTitle>
-            <CardDescription>Signup to access</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">{FormUI()}</CardContent>
-        </Card>
-      </TabsContent>
-    </Tabs>
-  );
+  if (connect == true) {
+    return (
+      <Tabs
+        defaultValue="signin"
+        className="flex flex-col items-center h-full justify-center px-5"
+        onValueChange={set}
+      >
+        <TabsList className="flex justify-center w-fit">
+          <TabsTrigger
+            onClick={() => {
+              set("signin");
+            }}
+            value="signin"
+          >
+            SignIn
+          </TabsTrigger>
+          <TabsTrigger
+            onClick={() => {
+              set("signup");
+            }}
+            value="signup"
+          >
+            SignUp
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="signin">
+          <Card className="px-12">
+            <CardHeader>
+              <CardTitle>SignIn</CardTitle>
+              <CardDescription>Signin to access</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">{FormUI()}</CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="signup">
+          <Card className="px-12">
+            <CardHeader>
+              <CardTitle>SignUp</CardTitle>
+              <CardDescription>Signup to access</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">{FormUI()}</CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    );
+  }else{
+    return (
+      <div className="h-full w-full flex justify-center items-center text-9xl max-sm:text-6xl">
+        Connecting...
+      </div>
+    );
+  }
 }
