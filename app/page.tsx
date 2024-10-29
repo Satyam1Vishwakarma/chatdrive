@@ -732,33 +732,35 @@ export default function Chat() {
 
   function send_message_card() {
     return (
-      <Card className="rounded-3xl shadow-xl shadow-black">
-        <form className="flex gap-4 p-5 items-center" onSubmit={handleSubmit}>
-          <Button
-            onClick={() => {
-              //socket?.emit("getmessages", { id: getSelectedGroup });
-              deleteCookie("id");
-              deleteCookie("username");
-              setcookie(false);
-            }}
-          >
-            Logout
-          </Button>
-          <Input
-            className="rounded-2xl"
-            id="userInput"
-            type="text"
-            placeholder="Type here..."
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-          />
+        <Card className="rounded-3xl shadow-xl shadow-black flex">
+          <form className="flex gap-4 p-5 items-center" onSubmit={handleSubmit}>
+            <Button
+              type="button"
+              className="flex"
+              onClick={() => {
+                //socket?.emit("getmessages", { id: getSelectedGroup });
+                deleteCookie("id");
+                deleteCookie("username");
+                setcookie(false);
+              }}
+            >
+              Logout
+            </Button>
+            <Input
+              className="rounded-2xl"
+              id="userInput"
+              type="text"
+              placeholder="Type here..."
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyPress={handleKeyPress}
+            />
 
-          <Button className="rounded-2xl" type="submit">
-            Send
-          </Button>
-        </form>
-      </Card>
+            <Button className="rounded-2xl" type="submit">
+              Send
+            </Button>
+          </form>
+        </Card>
     );
   }
 

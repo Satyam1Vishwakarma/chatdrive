@@ -364,7 +364,6 @@ io.on("connection", (socket) => {
       }
       filter GroupServer.id = <uuid> "${message["id"]}"
       `);
-    console.log(result[0]["messages"]);
     try {
       socket.emit("getmessages response", {
         object: result[0]["messages"],
