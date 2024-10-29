@@ -812,7 +812,7 @@ export default function Chat() {
                 <div className="flex h-full w-full flex-col justify-between">
                   <div className="p-3 flex justify-between">
                     {left_sheet()}
-                    <div>{group_setting()}</div>
+                    <Card>{group_setting()}</Card>
                     {right_sheet()}
                   </div>
                   <div className="h-[75.7%] w-full">
