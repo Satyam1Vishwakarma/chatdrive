@@ -776,21 +776,21 @@ export default function Chat() {
       if (getSelectedGroup == "") {
         return (
           <div className="flex flex-row h-full w-full">
-            <div className="w-min h-full bg-slate-400 max-sm:hidden">
+            <div className="w-min h-full max-sm:hidden">
               {<Card className="h-full">{list0fgroup_left()}</Card>}
             </div>
             <div className="w-full h-full">
-              <div className="bg-green-700 h-full w-full">
+              <div className="h-full w-full">
                 <div className="flex h-full w-full flex-col justify-between">
-                  <div className="bg-yellow-700 p-3 flex justify-between">
+                  <div className="p-3 flex justify-between">
                     {left_sheet()}
                     <div>{}</div>
                     {}
                   </div>
-                  <div className="h-[75.7%] w-full bg-violet-600 flex justify-center items-center text-4xl">
+                  <div className="h-[75.7%] w-full flex justify-center items-center text-4xl">
                     Select A Group...
                   </div>
-                  <div className="bg-cyan-500 mb-4 px-5 p-3 flex justify-center">
+                  <div className="mb-4 px-5 p-3 flex justify-center">
                     {}
                   </div>
                 </div>
@@ -804,21 +804,21 @@ export default function Chat() {
       } else {
         return (
           <div className="flex flex-row h-full w-full">
-            <div className="w-min h-full bg-slate-400 max-sm:hidden">
+            <div className="w-min h-full max-sm:hidden">
               {<Card className="h-full">{list0fgroup_left()}</Card>}
             </div>
             <div className="w-full h-full">
-              <div className="bg-green-700 h-full w-full">
+              <div className="h-full w-full">
                 <div className="flex h-full w-full flex-col justify-between">
-                  <div className="bg-yellow-700 p-3 flex justify-between">
+                  <div className="p-3 flex justify-between">
                     {left_sheet()}
                     <div>{group_setting()}</div>
                     {right_sheet()}
                   </div>
-                  <div className="h-[75.7%] w-full bg-violet-600">
+                  <div className="h-[75.7%] w-full">
                     {listof_message()}
                   </div>
-                  <div className="bg-cyan-500 mb-4 px-5 p-3 flex justify-center">
+                  <div className="mb-4 px-5 p-3 flex justify-center">
                     {send_message_card()}
                   </div>
                 </div>
