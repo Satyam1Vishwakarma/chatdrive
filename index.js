@@ -387,6 +387,9 @@ io.on("connection", (socket) => {
     })}
       `);
     console.log(result);
+    io.to(message["groupid"]).emit("messages response", {
+      id: message["groupid"],
+    });
     /*
     io.to(message["groupid"]).emit("messages response", {
       id: message["groupid"],

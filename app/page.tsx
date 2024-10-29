@@ -196,6 +196,14 @@ export default function Chat() {
   }, [messages]);
 
   useEffect(() => {
+    socket?.on("messages response", (message) => {
+      if (message["id"] == getSelectedGroup) {
+        socket?.emit("getmessages", { id: getSelectedGroup });
+      }
+    });
+  }, [getSelectedGroup]);
+
+  useEffect(() => {
     socket?.on("getmessages response", (message: MessageResponse) => {
       //console.log("lol");
       var prev = messages.length;
@@ -729,9 +737,9 @@ export default function Chat() {
           <Button
             onClick={() => {
               //socket?.emit("getmessages", { id: getSelectedGroup });
-              //deleteCookie("id");
-              //deleteCookie("username");
-              //setcookie(false);
+              deleteCookie("id");
+              deleteCookie("username");
+              setcookie(false);
             }}
           >
             Logout
