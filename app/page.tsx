@@ -2,7 +2,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
-import { use, useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -84,7 +84,6 @@ export default function Chat() {
   const [openSheet, setOpenSheet] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
-  const [, setSubmittedValue] = useState("");
 
   const [getcookie, setcookie] = useState(true);
 
@@ -101,8 +100,11 @@ export default function Chat() {
   const [onlineuserlist, setonlineuserlist] = useState<
     Array<UserResponseObject>
   >([]);
+  const [messages, setmessages] = useState<Array<MessagesResponseObject>>([]);
 
   const [isServerOwner, setServerOwner] = useState(false);
+
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   interface GroupResponseObject {
     id: string;
@@ -115,6 +117,16 @@ export default function Chat() {
     id: string;
     name: string;
     avatar: string | null;
+  }
+
+  interface MessagesResponseObject {
+    m_id: string;
+    data: string;
+    postedby: {
+      id: string;
+      name: string;
+      avatar: string | null;
+    };
   }
 
   useEffect(() => {
@@ -132,6 +144,10 @@ export default function Chat() {
   interface UserResponse {
     event: String;
     object: Array<UserResponseObject>;
+  }
+  interface MessageResponse {
+    event: String;
+    object: Array<MessagesResponseObject>;
   }
 
   const connectSocket = useCallback(() => {
@@ -154,6 +170,11 @@ export default function Chat() {
       socket?.emit("getusers", { id: getSelectedGroup });
     });
 
+    newSocket.on("getmessages response", (message: MessageResponse) => {
+      console.log(message);
+      setmessages(message.object);
+    });
+
     setSocket(newSocket);
 
     return () => {
@@ -174,6 +195,9 @@ export default function Chat() {
       socket?.emit("getgroups", { id: getCookie("id") });
     }
   });
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     socket?.on("discontinued", () => {
@@ -234,8 +258,17 @@ export default function Chat() {
       event.preventDefault();
     }
     if (inputValue.trim()) {
-      setSubmittedValue(inputValue);
+      //setSubmittedValue(inputValue);
+      socket?.emit("messages", {
+        id: getCookie("id"),
+        username: getCookie("username"),
+        groupid: getSelectedGroup,
+        data: inputValue,
+      });
       setInputValue("");
+      socket?.emit("getmessages", { id: getSelectedGroup });
+      socket?.emit("getmessages", { id: getSelectedGroup });
+      console.log("send --- got");
     }
   };
 
@@ -376,6 +409,7 @@ export default function Chat() {
                       socket?.emit("getonlineusers", {
                         id: value.id,
                       });
+                      socket?.emit("getmessages", { id: value.id });
                       setOpenSheet(false);
                     }}
                     whileHover={{ scale: 1.06 }}
@@ -394,7 +428,7 @@ export default function Chat() {
                       src={
                         value.image == null
                           ? "https://github.com/shadcn.png"
-                          : undefined
+                          : value.image
                       }
                     />
                     <AvatarFallback>CN</AvatarFallback>
@@ -496,30 +530,40 @@ export default function Chat() {
   function listof_message() {
     return (
       <ScrollArea className="h-full w-full">
-        {tagss.map((_tag, index) => (
+        {messages.map((value, index, array) => (
           <div
             key={index}
             className={
               "py-2 sm:px-20 max-sm:px-3 flex " +
-              `${index % 2 == 0 ? "justify-start" : "justify-end"}`
+              `${
+                value.postedby.id == getCookie("id")
+                  ? "justify-end"
+                  : "justify-start"
+              }`
             }
           >
             <Card className="w-min py-4 px-6">
               <div className="flex">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarImage
+                    src={
+                      value.postedby.avatar == null
+                        ? "https://github.com/shadcn.png"
+                        : value.postedby.avatar
+                    }
+                  />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <CardDescription className="px-3">name</CardDescription>
+                <CardDescription className="px-3">
+                  {value.postedby.name}
+                </CardDescription>
               </div>
 
-              <CardHeader className="py-3">
-                {index}
-                {"aaaaaaaaaaaaa"}
-              </CardHeader>
+              <CardHeader className="py-3">{value.data}</CardHeader>
             </Card>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </ScrollArea>
     );
   }
@@ -674,12 +718,14 @@ export default function Chat() {
         <form className="flex gap-4 p-5 items-center" onSubmit={handleSubmit}>
           <Button
             onClick={() => {
-              //console.log(getSelectedGroup);
-              deleteCookie("id");
-              deleteCookie("username");
-              setcookie(false);
+              //socket?.emit("getmessages", { id: getSelectedGroup });
+              //deleteCookie("id");
+              //deleteCookie("username");
+              //setcookie(false);
             }}
-          ></Button>
+          >
+            Logout
+          </Button>
           <Input
             className="rounded-2xl"
             id="userInput"

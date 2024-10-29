@@ -29,7 +29,9 @@ module default {
         position: messageno {
             constraint exclusive;
             };
-        postedby: Account;
+        postedby: Account{
+            on target delete allow;
+        };
     }
 
 }

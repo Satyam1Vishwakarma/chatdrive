@@ -24,7 +24,6 @@ app.use(
   })
 );
 
-
 const client = edgedb.createClient();
 
 const event = {
@@ -39,7 +38,7 @@ const event = {
     user_name_taken: 2,
   },
   "getgroups response": {
-    example: { event: 1, object },
+    example: { event: 1, object: object },
     ok: 1,
     object: null,
   },
@@ -47,6 +46,7 @@ const event = {
     example: { event: 1, object: { id: "1", username: "1", avatar: "a" } },
     ok: 1,
   },
+  "getmessages response": { object: object },
   signin: {
     example: { username: "qqqqqqq", password: "1234" },
   },
@@ -68,6 +68,12 @@ const event = {
   },
   getonlineusers: {
     example: { id: "currentgroup" },
+  },
+  getmessages: {
+    example: { id: "currentgroup" },
+  },
+  messages: {
+    example: { id: "myid", groupid: "currentgroup", data: "message" },
   },
   leavegroup: {
     example: { id: "myid", groupid: "currentgroupid" },
@@ -345,6 +351,54 @@ io.on("connection", (socket) => {
     }
 
     socket.emit("getonlineusers response", { object: OnlineUsers });
+  });
+
+  socket.on("getmessages", async (message) => {
+    const result = await client.query(`
+      select GroupServer{
+        messages : {
+          id,
+          data,
+          postedby : {id,name,avatar},
+        }
+      }
+      filter GroupServer.id = <uuid> "${message["id"]}"
+      `);
+    console.log(result[0]["messages"]);
+    try {
+      socket.emit("getmessages response", {
+        object: result[0]["messages"],
+      });
+    } catch {
+      socket.emit("getmessages response", {
+        object: result,
+      });
+    }
+  });
+
+  socket.on("messages", async (message) => {
+    const result = await client.query(`
+      with account:= (select Account filter Account.id = <uuid> "${message["id"]}")
+      update GroupServer
+      filter GroupServer.id = <uuid> "${message["groupid"]}"
+      set{messages += (insert Messages{
+        data := "${message["data"]}",
+        postedby := account
+    })}
+      `);
+    console.log(result);
+    /*
+    io.to(message["groupid"]).emit("messages response", {
+      id: message["groupid"],
+      data: message["data"],
+      postedby: {
+        id: message["id"],
+        name: message["username"],
+        avatar: string | null,
+      },
+    });
+    */
+    console.log("mess added");
   });
 
   socket.on("connect_error", (error) => {
