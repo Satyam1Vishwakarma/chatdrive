@@ -336,20 +336,22 @@ io.on("connection", (socket) => {
 
   socket.on("getonlineusers", async (message) => {
     const OnlineUsers = [];
-    const sockets = io.sockets.adapter.rooms.get(message["id"]);
-    for (const i of sockets) {
-      const id = io.sockets.sockets.get(i).handshake.query["id"];
-      const name = io.sockets.sockets.get(i).handshake.query["username"];
-      const result = await client.query(`
-        select Account{
-        avatar,
-      }filter Account.id = <uuid> "${id}"
-      `);
-      const avatar = result[0]["avatar"];
-      OnlineUsers.push({ id, name, avatar });
-    }
+    try {
+      const sockets = io.sockets.adapter.rooms.get(message["id"]);
+      for (const i of sockets) {
+        const id = io.sockets.sockets.get(i).handshake.query["id"];
+        const name = io.sockets.sockets.get(i).handshake.query["username"];
+        const result = await client.query(`
+          select Account{
+          avatar,
+        }filter Account.id = <uuid> "${id}"
+        `);
+        const avatar = result[0]["avatar"];
+        OnlineUsers.push({ id, name, avatar });
+      }
 
-    socket.emit("getonlineusers response", { object: OnlineUsers });
+      socket.emit("getonlineusers response", { object: OnlineUsers });
+    } catch {}
   });
 
   socket.on("getmessages", async (message) => {
