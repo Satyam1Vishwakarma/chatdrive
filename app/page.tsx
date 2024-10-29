@@ -170,11 +170,6 @@ export default function Chat() {
       socket?.emit("getusers", { id: getSelectedGroup });
     });
 
-    newSocket.on("getmessages response", (message: MessageResponse) => {
-      console.log(message);
-      setmessages(message.object);
-    });
-
     setSocket(newSocket);
 
     return () => {
@@ -195,9 +190,24 @@ export default function Chat() {
       socket?.emit("getgroups", { id: getCookie("id") });
     }
   });
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    socket?.on("getmessages response", (message: MessageResponse) => {
+      //console.log("lol");
+      var prev = messages.length;
+      setmessages(message.object);
+      var curr = message.object.length;
+      console.log("---", prev, "===", curr);
+      if (prev == curr) {
+        console.log("looping");
+        socket?.emit("getmessages", { id: getSelectedGroup });
+      }
+    });
+  }, [getSelectedGroup, messages]);
 
   useEffect(() => {
     socket?.on("discontinued", () => {
@@ -267,8 +277,8 @@ export default function Chat() {
       });
       setInputValue("");
       socket?.emit("getmessages", { id: getSelectedGroup });
-      socket?.emit("getmessages", { id: getSelectedGroup });
-      console.log("send --- got");
+      //socket?.emit("getmessages", { id: getSelectedGroup });
+      //console.log("send --- got");
     }
   };
 
