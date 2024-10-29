@@ -337,7 +337,6 @@ io.on("connection", (socket) => {
   socket.on("getonlineusers", async (message) => {
     const OnlineUsers = [];
     const sockets = io.sockets.adapter.rooms.get(message["id"]);
-    console.log(message["id"]);
     for (const i of sockets) {
       const id = io.sockets.sockets.get(i).handshake.query["id"];
       const name = io.sockets.sockets.get(i).handshake.query["username"];
