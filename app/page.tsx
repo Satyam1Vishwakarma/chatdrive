@@ -534,7 +534,7 @@ export default function Chat() {
                           </FormItem>
                         )}
                       />
-                      <Button type="submit">Create</Button>
+                      <Button type="submit">Join</Button>
                     </form>
                   </Form>
                 </DialogDescription>
@@ -589,114 +589,122 @@ export default function Chat() {
 
   function group_setting() {
     return (
-      <div className="gap-5">
-        <Drawer>
-          <DrawerTrigger className={`${isServerOwner ? "hidden" : null}`}>
-            <SquareMinus />
-          </DrawerTrigger>
-          <DrawerContent>
-            <center className="px-20">
-              <DrawerHeader>
-                <DrawerTitle>Leave Group</DrawerTitle>
-                <DrawerDescription>Click Leave</DrawerDescription>
-              </DrawerHeader>
-              <DrawerFooter>
-                <Button
-                  variant="destructive"
-                  onClick={() => {
-                    socket?.emit("removegroup", {
-                      id: getCookie("id"),
-                      groupid: getSelectedGroup,
-                    });
-                    setgotserverlist(false);
-                    setSelectedGroup("");
-                  }}
-                >
-                  Leave
-                </Button>
-                <DrawerClose>
-                  <Button variant="outline">Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </center>
-          </DrawerContent>
-        </Drawer>
-
-        <Drawer>
-          <DrawerTrigger>
-            <Settings />
-          </DrawerTrigger>
-          <DrawerContent>
-            <center className="px-20">
-              <DrawerHeader>
-                <DrawerTitle>Group Settings</DrawerTitle>
-                <DrawerDescription>Change Settings Here</DrawerDescription>
-                <Label className="pt-7">Goup Name</Label>
-                <Input placeholder="name"></Input>
-              </DrawerHeader>
-              <DrawerFooter>
-                <Button>Submit</Button>
-                <DrawerClose>
-                  <Button variant="outline">Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </center>
-          </DrawerContent>
-        </Drawer>
-
-        <Drawer>
-          <DrawerTrigger className={`${isServerOwner ? null : "hidden"}`}>
-            <Trash2 />
-          </DrawerTrigger>
-          <DrawerContent>
-            <center className="px-20">
-              <DrawerHeader>
-                <DrawerTitle>Delete Group</DrawerTitle>
-                <DrawerDescription>Confirm</DrawerDescription>
-              </DrawerHeader>
-              <DrawerFooter>
-                <DrawerClose>
+      <div className="gap-5 flex justify-center items-center">
+        <div>
+          <Drawer>
+            <DrawerTrigger className={`${isServerOwner ? "hidden" : null}`}>
+              <SquareMinus />
+            </DrawerTrigger>
+            <DrawerContent>
+              <center className="px-20">
+                <DrawerHeader>
+                  <DrawerTitle>Leave Group</DrawerTitle>
+                  <DrawerDescription>Click Leave</DrawerDescription>
+                </DrawerHeader>
+                <DrawerFooter>
                   <Button
                     variant="destructive"
                     onClick={() => {
-                      socket?.emit("deletegroup", { id: getSelectedGroup });
-                      setgotserverlist(false);
-                      socket?.emit("deletegroup", { id: getSelectedGroup });
+                      socket?.emit("removegroup", {
+                        id: getCookie("id"),
+                        groupid: getSelectedGroup,
+                      });
                       setgotserverlist(false);
                       setSelectedGroup("");
                     }}
                   >
-                    Delete Group
+                    Leave
                   </Button>
-                  <div className="px-2 py-2"></div>
-                  <Button>Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </center>
-          </DrawerContent>
-        </Drawer>
+                  <DrawerClose>
+                    <Button variant="outline">Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </center>
+            </DrawerContent>
+          </Drawer>
+        </div>
 
-        <Drawer>
-          <DrawerTrigger>
-            <Share2 />
-          </DrawerTrigger>
-          <DrawerContent>
-            <center className="px-20">
-              <DrawerHeader>
-                <DrawerTitle>Share Group</DrawerTitle>
-                <DrawerDescription>Copy Here</DrawerDescription>
-                <Label className="pt-7">
-                  <ClickToCopy text={getSelectedGroup}></ClickToCopy>
-                </Label>
-              </DrawerHeader>
-              <DrawerFooter>
-                <DrawerClose>
-                  <Button variant="outline">Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </center>
-          </DrawerContent>
-        </Drawer>
+        <div>
+          <Drawer>
+            <DrawerTrigger>
+              <Settings />
+            </DrawerTrigger>
+            <DrawerContent>
+              <center className="px-20">
+                <DrawerHeader>
+                  <DrawerTitle>Group Settings</DrawerTitle>
+                  <DrawerDescription>Change Settings Here</DrawerDescription>
+                  <Label className="pt-7">Goup Name</Label>
+                  <Input placeholder="name"></Input>
+                </DrawerHeader>
+                <DrawerFooter>
+                  <Button>Submit</Button>
+                  <DrawerClose>
+                    <Button variant="outline">Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </center>
+            </DrawerContent>
+          </Drawer>
+        </div>
+
+        <div>
+          <Drawer>
+            <DrawerTrigger className={`${isServerOwner ? null : "hidden"}`}>
+              <Trash2 />
+            </DrawerTrigger>
+            <DrawerContent>
+              <center className="px-20">
+                <DrawerHeader>
+                  <DrawerTitle>Delete Group</DrawerTitle>
+                  <DrawerDescription>Confirm</DrawerDescription>
+                </DrawerHeader>
+                <DrawerFooter>
+                  <DrawerClose>
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        socket?.emit("deletegroup", { id: getSelectedGroup });
+                        setgotserverlist(false);
+                        socket?.emit("deletegroup", { id: getSelectedGroup });
+                        setgotserverlist(false);
+                        setSelectedGroup("");
+                      }}
+                    >
+                      Delete Group
+                    </Button>
+                    <div className="px-2 py-2"></div>
+                    <Button>Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </center>
+            </DrawerContent>
+          </Drawer>
+        </div>
+
+        <div>
+          <Drawer>
+            <DrawerTrigger>
+              <Share2 />
+            </DrawerTrigger>
+            <DrawerContent>
+              <center className="px-20">
+                <DrawerHeader>
+                  <DrawerTitle>Share Group</DrawerTitle>
+                  <DrawerDescription>Copy Here</DrawerDescription>
+                  <Label className="pt-7">
+                    <ClickToCopy text={getSelectedGroup}></ClickToCopy>
+                  </Label>
+                </DrawerHeader>
+                <DrawerFooter>
+                  <DrawerClose>
+                    <Button variant="outline">Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </center>
+            </DrawerContent>
+          </Drawer>
+        </div>
       </div>
     );
   }
@@ -733,35 +741,35 @@ export default function Chat() {
 
   function send_message_card() {
     return (
-        <Card className="rounded-3xl shadow-xl shadow-black flex">
-          <form className="flex gap-4 p-5 items-center" onSubmit={handleSubmit}>
-            <Button
-              type="button"
-              className="flex"
-              onClick={() => {
-                //socket?.emit("getmessages", { id: getSelectedGroup });
-                deleteCookie("id");
-                deleteCookie("username");
-                setcookie(false);
-              }}
-            >
-              Logout
-            </Button>
-            <Input
-              className="rounded-2xl"
-              id="userInput"
-              type="text"
-              placeholder="Type here..."
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-            />
+      <Card className="rounded-3xl shadow-xl shadow-black flex">
+        <form className="flex gap-4 p-5 items-center" onSubmit={handleSubmit}>
+          <Button
+            type="button"
+            className="flex"
+            onClick={() => {
+              //socket?.emit("getmessages", { id: getSelectedGroup });
+              deleteCookie("id");
+              deleteCookie("username");
+              setcookie(false);
+            }}
+          >
+            Logout
+          </Button>
+          <Input
+            className="rounded-2xl"
+            id="userInput"
+            type="text"
+            placeholder="Type here..."
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+          />
 
-            <Button className="rounded-2xl" type="submit">
-              Send
-            </Button>
-          </form>
-        </Card>
+          <Button className="rounded-2xl" type="submit">
+            Send
+          </Button>
+        </form>
+      </Card>
     );
   }
 
@@ -790,9 +798,7 @@ export default function Chat() {
                   <div className="h-[75.7%] w-full flex justify-center items-center text-4xl">
                     Select A Group...
                   </div>
-                  <div className="mb-4 px-5 p-3 flex justify-center">
-                    {}
-                  </div>
+                  <div className="mb-4 px-5 p-3 flex justify-center">{}</div>
                 </div>
               </div>
             </div>
@@ -812,12 +818,12 @@ export default function Chat() {
                 <div className="flex h-full w-full flex-col justify-between">
                   <div className="p-3 flex justify-between">
                     {left_sheet()}
-                    <Card>{group_setting()}</Card>
+                    <Card className="p-3 gap-3 rounded-2xl">
+                      {group_setting()}
+                    </Card>
                     {right_sheet()}
                   </div>
-                  <div className="h-[75.7%] w-full">
-                    {listof_message()}
-                  </div>
+                  <div className="h-[75.4%] w-full">{listof_message()}</div>
                   <div className="mb-4 px-5 p-3 flex justify-center">
                     {send_message_card()}
                   </div>
