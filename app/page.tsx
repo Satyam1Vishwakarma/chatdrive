@@ -236,6 +236,7 @@ export default function Chat() {
           id: getSelectedGroup,
         });
         socket?.emit("getusers", { id: getSelectedGroup });
+        socket?.emit("getmessages", { id: getSelectedGroup });
       }
     });
   }, [getSelectedGroup]);
