@@ -158,6 +158,10 @@ export default function Chat() {
       },
     });
 
+    newSocket.on("connect_error", (err) => {
+      console.log(">>",err.message);
+    });
+
     newSocket.on("getusers response", (message: UserResponse) => {
       if (message["event"] == "1") {
         setuserlist(message.object);
