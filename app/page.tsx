@@ -210,6 +210,7 @@ export default function Chat() {
   useEffect(() => {
     socket?.on("getmessages response", (message: MessageResponse) => {
       //console.log("lol");
+      var t = 0;
       var prev = messages.length;
       setmessages(message.object);
       var curr = message.object.length;
