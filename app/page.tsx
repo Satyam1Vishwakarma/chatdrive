@@ -159,7 +159,7 @@ export default function Chat() {
     });
 
     newSocket.on("connect_error", (err) => {
-      console.log(">>",err.message);
+      console.log(">>", err.message);
     });
 
     newSocket.on("getusers response", (message: UserResponse) => {
@@ -210,16 +210,16 @@ export default function Chat() {
   useEffect(() => {
     socket?.on("getmessages response", (message: MessageResponse) => {
       //console.log("lol");
-      var t = 0;
-      var prev = messages.length;
+      // var t = 0;
+      //var prev = messages.length;
       setmessages(message.object);
-      var curr = message.object.length;
-      console.log("---", prev, "===", curr);
-      if (prev == curr && t < 2) {
-        console.log("looping");
-        socket?.emit("getmessages", { id: getSelectedGroup });
-        t = t + 1;
-      }
+      //var curr = message.object.length;
+      //console.log("---", prev, "===", curr);
+      //if (prev == curr && t < 2) {
+      //  console.log("looping");
+      socket?.emit("getmessages", { id: getSelectedGroup });
+      //  t = t + 1;
+      //}
     });
   }, [getSelectedGroup, messages]);
 
