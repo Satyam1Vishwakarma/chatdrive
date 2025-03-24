@@ -214,9 +214,10 @@ export default function Chat() {
       setmessages(message.object);
       var curr = message.object.length;
       console.log("---", prev, "===", curr);
-      if (prev == curr) {
+      if (prev == curr && t < 2) {
         console.log("looping");
         socket?.emit("getmessages", { id: getSelectedGroup });
+        t = t + 1;
       }
     });
   }, [getSelectedGroup, messages]);
