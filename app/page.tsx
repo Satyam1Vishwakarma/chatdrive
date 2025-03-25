@@ -457,11 +457,11 @@ export default function Chat() {
                     <AvatarImage
                       src={
                         value.image == null
-                          ? "https://github.com/shadcn.png"
+                          ? "https://avatars.githubusercontent.com/u/48099587"
                           : value.image
                       }
                     />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>Group</AvatarFallback>
                   </Motionavatar>
                 </TooltipTrigger>
                 <TooltipContent className="bg-yellow-400">
