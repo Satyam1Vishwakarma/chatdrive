@@ -26,8 +26,8 @@ app.use(
 );
 
 const client = gel.createClient();
-gel.SHOULD_RECONNECT = true;
-gel.SHOULD_RETRY = true;
+gel.SHOULD_RECONNECT;
+gel.SHOULD_RETRY;
 
 const event = {
   "signin response": {
