@@ -171,7 +171,8 @@ export default function Chat() {
 
     newSocket.on("getonlineusers response", (message: UserResponse) => {
       console.log(message);
-      setonlineuserlist(message.object);
+      var mess = new Array(message.object);
+      setonlineuserlist(mess[0]);
       socket?.emit("getusers", { id: getSelectedGroup });
     });
 
@@ -219,7 +220,7 @@ export default function Chat() {
       //console.log("---", prev, "===", curr);
       //if (prev == curr && t < 2) {
       //  console.log("looping");
-      socket?.emit("getmessages", { id: getSelectedGroup });
+      //socket?.emit("getmessages", { id: getSelectedGroup });
       //  t = t + 1;
       //}
     });
@@ -253,7 +254,8 @@ export default function Chat() {
     socket?.on("getgroups response", (message: GroupResponse) => {
       if (message["event"] == "1") {
         setgotserverlist(true);
-        setgrouplist(message.object);
+        var mess = new Array(message.object);
+        setgrouplist(mess[0]);
         setLoading(false);
       }
     });
@@ -271,7 +273,8 @@ export default function Chat() {
 
     socket?.on("getonlineusers response", (message: UserResponse) => {
       console.log(message);
-      setonlineuserlist(message.object);
+      var mess = new Array(message.object);
+      setonlineuserlist(mess[0]);
       socket?.emit("getusers", { id: getSelectedGroup });
     });
   }, [getSelectedGroup]);

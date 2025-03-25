@@ -207,19 +207,18 @@ io.on("connection", (socket) => {
     filter .id= <uuid> "${message["id"]}"
     `);
 
-    try {
+    if (result[0]["joined"].length > 0) {
       for (const group of result[0]["joined"]) {
         socket.join(group["id"]);
         io.to(group["id"]).emit("newonlineuser", { id: group["id"] });
       }
-    } catch {}
-
-    try {
+    }
+    if (result[0]["joined"].length > 0) {
       socket.emit("getgroups response", {
         event: 1,
         object: result[0]["joined"],
       });
-    } catch {
+    } else {
       socket.emit("getgroups response", {
         event: 1,
         object: result,
@@ -368,13 +367,13 @@ io.on("connection", (socket) => {
       }
       filter GroupServer.id = <uuid> "${message["id"]}"
       `);
-    try {
+    if (result[0]["messages"].length > 0) {
       socket.emit("getmessages response", {
         object: result[0]["messages"],
       });
-    } catch {
+    } else {
       socket.emit("getmessages response", {
-        object: result,
+        object: [],
       });
     }
   });
