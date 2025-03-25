@@ -12,6 +12,7 @@ import {
   CircleChevronLeft,
   CircleChevronRight,
   ExternalLink,
+  List,
   MessageSquareDiff,
   Settings,
   Share2,
@@ -212,7 +213,8 @@ export default function Chat() {
       //console.log("lol");
       // var t = 0;
       //var prev = messages.length;
-      setmessages(message.object);
+      var mess = new Array(message.object);
+      setmessages(mess[0]);
       //var curr = message.object.length;
       //console.log("---", prev, "===", curr);
       //if (prev == curr && t < 2) {
