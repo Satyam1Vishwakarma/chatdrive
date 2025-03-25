@@ -773,7 +773,7 @@ export default function Chat() {
             placeholder="Type here..."
             value={inputValue}
             onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
           />
 
           <Button className="rounded-2xl" type="submit">
