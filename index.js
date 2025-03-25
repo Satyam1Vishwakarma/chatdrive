@@ -221,7 +221,7 @@ io.on("connection", (socket) => {
     } else {
       socket.emit("getgroups response", {
         event: 1,
-        object: result,
+        object: [],
       });
     }
   });
