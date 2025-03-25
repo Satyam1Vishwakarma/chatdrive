@@ -26,7 +26,8 @@ app.use(
 );
 
 const client = gel.createClient();
-edgedb.SHOULD_RECONNECT = true;
+gel.SHOULD_RECONNECT = true;
+gel.SHOULD_RETRY = true;
 
 const event = {
   "signin response": {
