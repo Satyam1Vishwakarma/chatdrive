@@ -24,9 +24,7 @@ app.use(
   })
 );
 
-const client = edgedb.createClient().withGlobals({
-  debug: true, // Enables query logging
-});
+const client = edgedb.createClient();
 
 const event = {
   "signin response": {
@@ -418,9 +416,9 @@ io.on("connection", (socket) => {
 });
 
 io.engine.on("connection_error", (err) => {
-  console.log(">>", err.code); // the error code, for example 1
-  console.log(">>", err.message); // the error message, for example "Session ID unknown"
-  console.log(">>", err.context); // some additional error context
+  console.log(">>",err.code);     // the error code, for example 1
+  console.log(">>",err.message);  // the error message, for example "Session ID unknown"
+  console.log(">>",err.context);  // some additional error context
 });
 
 var port = process.env.PORT || 3001;
