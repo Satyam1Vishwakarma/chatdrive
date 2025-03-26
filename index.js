@@ -332,8 +332,17 @@ io.on("connection", (socket) => {
       }
       filter GroupServer.id = <uuid> "${message["id"]}"
       `);
-
-    socket.emit("getusers response", { event: 1, object: result[0]["users"] });
+    if (result[0]["users"].length > 0) {
+      socket.emit("getusers response", {
+        event: 1,
+        object: result[0]["users"],
+      });
+    } else {
+      socket.emit("getusers response", {
+        event: 1,
+        object: [],
+      });
+    }
   });
 
   socket.on("getonlineusers", async (message) => {
