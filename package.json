@@ -9,8 +9,8 @@
     "start": "next start",
     "server": "bun --watch index.js",
     "server2": "node index.js",
-    "server3": "bun ./out/index.js",
-    "serverbuild": "bun build ./index.js --target=bun --outdir=./out --minify --bytecode",
+    "server3": "bun ./outbundle/index.js",
+    "serverbuild": "bun build ./index.js --target=bun --outdir=./outbundle --minify --format=esm",
     "lint": "next lint"
   },
   "dependencies": {
