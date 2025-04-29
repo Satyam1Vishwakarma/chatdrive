@@ -86,7 +86,7 @@ const event = {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "index2.html"));
+  res.sendFile(join(__dirname, "index.html"));
 });
 
 const auth = io.of("/auth").on("connection", (socket) => {
