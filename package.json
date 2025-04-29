@@ -9,6 +9,7 @@
     "start": "next start",
     "server": "bun --watch index.js",
     "server2": "node index.js",
+    "server3":"bun index.js",
     "lint": "next lint"
   },
   "dependencies": {
