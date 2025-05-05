@@ -21,7 +21,7 @@ ChatDrive is a real-time full-stack chat application that enables seamless commu
 
 **Frontend**  
 - React.js + Tailwind CSS  
-- Axios, Zustand (or Context API)  
+- NextJS
 - Vercel Hosting  
 
 **Backend**  
