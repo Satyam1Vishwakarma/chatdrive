@@ -50,7 +50,7 @@ export default function ProfileForm() {
     }
 
     newSocket.on("connect", () => {
-      setConnect(true)
+      setConnect(true);
     });
 
     newSocket.on("signin response", (message: Message) => {
@@ -197,7 +197,7 @@ export default function ProfileForm() {
     return (
       <Tabs
         defaultValue="signin"
-        className="flex flex-col items-center h-full justify-center px-5"
+        className="flex flex-col items-center h-full justify-center px-5 bg-gradient-to-br from-indigo-100 to-pink-100"
         onValueChange={set}
       >
         <TabsList className="flex justify-center w-fit">
@@ -238,7 +238,7 @@ export default function ProfileForm() {
         </TabsContent>
       </Tabs>
     );
-  }else{
+  } else {
     return (
       <div className="h-full w-full flex justify-center items-center text-9xl max-sm:text-6xl">
         Connecting...
