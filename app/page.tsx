@@ -572,7 +572,7 @@ export default function Chat() {
               }`
             }
           >
-            <Card className="w-min py-4 px-6">
+            <Card className="w-min pt-4 px-4 pb-2">
               <div className="flex">
                 <Avatar>
                   <AvatarImage
