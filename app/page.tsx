@@ -148,7 +148,8 @@ export default function Chat() {
   useEffect(() => {
     socket?.on("messages response", (message) => {
       if (message["id"] == getSelectedGroup) {
-        socket?.emit("getmessages", { id: getSelectedGroup });
+        //socket?.emit("getmessages", { id: getSelectedGroup });
+        setmessages((prevMessages) => [...prevMessages, message]);
       }
     });
   }, [getSelectedGroup]);
