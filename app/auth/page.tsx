@@ -34,11 +34,25 @@ import { deleteCookie, setCookie } from "cookies-next";
 const SOCKET_SERVER_URL =
   process.env.NEXT_PUBLIC_URL || "http://localhost:3001";
 
+const BACK_ML = process.env.NEXT_PUBLIC_URL_ML || "http://localhost:8000";
+
 export default function ProfileForm() {
   const [get, set] = useState<String>("signin");
   const [socket, setSocket] = useState<Socket | null>(null);
   const [connect, setConnect] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchPrediction = async () => {
+      const result = await fetch(BACK_ML, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: "http://example.com" }),
+      });
+    };
+
+    fetchPrediction();
+  }, []);
 
   const connectSocket = useCallback(() => {
     const newSocket = io(SOCKET_SERVER_URL + "/auth");

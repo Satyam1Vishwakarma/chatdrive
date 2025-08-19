@@ -1,13 +1,10 @@
 "use client";
-import { Card} from "@/components/ui/card";
-import {useCallback, useEffect, useRef, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-import {
-  CircleChevronLeft,
-  CircleChevronRight,
-} from "lucide-react";
+import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
 
 import { getCookie, hasCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -20,6 +17,8 @@ import Messages from "@/components/mycomponent/messages";
 
 const SOCKET_SERVER_URL =
   process.env.NEXT_PUBLIC_URL || "http://localhost:3001";
+
+const BACK_ML = process.env.NEXT_PUBLIC_URL_ML || "http://localhost:8000";
 
 export default function Chat() {
   const [getSelectedGroup, setSelectedGroup] = useState<string>("");
@@ -81,6 +80,18 @@ export default function Chat() {
       router.push("/auth");
     }
   }, [getcookie]);
+
+  useEffect(() => {
+    const fetchPrediction = async () => {
+      const result = await fetch(BACK_ML, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: "http://example.com" }),
+      });
+    };
+
+    fetchPrediction();
+  }, []);
 
   interface GroupResponse {
     event: String;
@@ -149,6 +160,7 @@ export default function Chat() {
     socket?.on("messages response", (message) => {
       if (message["id"] == getSelectedGroup) {
         //socket?.emit("getmessages", { id: getSelectedGroup });
+        //console.log(message)
         setmessages((prevMessages) => [...prevMessages, message]);
       }
     });
@@ -156,6 +168,7 @@ export default function Chat() {
 
   useEffect(() => {
     socket?.on("getmessages response", (message: MessageResponse) => {
+      //console.log(message);
       //console.log("lol");
       // var t = 0;
       //var prev = messages.length;
@@ -196,7 +209,7 @@ export default function Chat() {
   }, [getSelectedGroup]);
 
   useEffect(() => {
-    socket?.on("getgroups response", (message: GroupResponse) => {
+    socket?.on("getgroups response", async (message: GroupResponse) => {
       if (message["event"] == "1") {
         setgotserverlist(true);
         var mess = new Array(message.object);
